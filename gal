@@ -34,7 +34,7 @@ validateURL(){
 }
 
 getContent(){
-	curl -sL $1 > tmp.txt
+	curl -siL $1 > tmp.txt
 }
 
 find(){
