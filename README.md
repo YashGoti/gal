@@ -1,6 +1,11 @@
 # gal
 Get all possible href | src | url from target url or domain
 
+### Upcoming Updates
+```
+Extract Endponits from JavaScript Files/URL
+```
+
 ### Dependency 
 ```
 Linux System
@@ -21,6 +26,11 @@ wget https://raw.githubusercontent.com/YashGoti/gal/master/gal && chmod +x gal
 ```
 $ ~/gal URL/DOMAIN
 $ ~/gal URL/DOMAIN | grep '\.js$'
+```
+
+### Note
+```
+If you found anything wrong, let me know!!!
 ```
 
 ### Donation
