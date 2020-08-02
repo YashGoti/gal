@@ -25,8 +25,8 @@ wget https://raw.githubusercontent.com/YashGoti/gal/master/gal && chmod +x gal
 
 ### Usage
 ```
-$ ~/gal URL/DOMAIN
-$ ~/gal URL/DOMAIN | grep '\.js$'
+$ ~/gal -t URL/DOMAIN
+$ ~/gal -t URL/DOMAIN | grep '\.js$'
 ```
 
 ### Note
