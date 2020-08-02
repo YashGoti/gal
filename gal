@@ -13,7 +13,7 @@ banner(){
 help(){
 	banner
 	echo -e "[Usage]:"
-  echo -e "\t$ ~/gal URL/DOMAIN"
+  	echo -e "\t$ ~/gal URL/DOMAIN"
 	echo -e "\t-h\thelp"
 }
 
