@@ -13,7 +13,7 @@ banner(){
 help(){
 	banner
 	echo -e "[Usage]:"
-  	echo -e "\t$ ~/gal URL/DOMAIN"
+  	echo -e "\t$ ~/gal -t URL/DOMAIN"
 	echo -e "\t-h\thelp"
 }
 
@@ -50,10 +50,10 @@ find(){
 	rm -rf tmp.txt _tmp.txt
 }
 
-while getopts "u:ljeh" OPT; do
+while getopts "t:h" OPT; do
     case ${OPT} in
-        u  ) argurl=$OPTARG ; getContent $(validateURL $argurl); find $(validateURL $argurl) ;;
-		h  ) help ;;
+        t  ) argurl=$OPTARG ; getContent $(validateURL $argurl); find $(validateURL $argurl) ;;
+	h  ) help ;;
     esac
 done
 shift $((OPTIND -1))
