@@ -2,6 +2,8 @@
 [Get All Links]  
 Get all possible href | src | url from target url or domain
 
+![gal](https://raw.githubusercontent.com/YashGoti/gal/master/gal.svg)
+
 ### Upcoming Updates
 ```
 Extract Endponits from JavaScript Files/URL
