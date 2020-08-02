@@ -1,4 +1,5 @@
 # gal
+[Get All Links]  
 Get all possible href | src | url from target url or domain
 
 ### Upcoming Updates
