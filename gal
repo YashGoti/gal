@@ -1,0 +1,59 @@
+#!/bin/bash
+
+banner(){
+	echo -e "\t+-------------------------+\t"
+	echo -e "\t|                    v1.0 |\t"
+	echo -e "\t|-------------------------|\t"
+	echo -e "\t| G E T  A L L  L I N K S |\t"
+	echo -e "\t|-------------------------|\t"
+	echo -e "\t| @_YashGoti_             |\t"
+	echo -e "\t+-------------------------+\t"
+}
+
+help(){
+	banner
+	echo -e "[Usage]:"
+  echo -e "\t$ ~/gal URL/DOMAIN"
+	echo -e "\t-h\thelp"
+}
+
+if [[ -z $1 ]]; then help; fi
+
+validateURL(){
+	if [[ -z $1 ]]; then 
+		:
+	else
+		case $1 in
+			http://*      ) if [[ $1 == */ ]]; then echo $1; else echo $1/; fi; ;;
+			https://*     ) if [[ $1 == */ ]]; then echo $1; else echo $1/; fi; ;;
+			*             ) if [[ $1 == *.html ]] || [[ $1 == *.js ]]; then echo https://$1; else echo https://$1/; fi; ;;
+			*.html        ) if [[ $1 == http://* ]] || [[ $1 == https://* ]]; then echo $1; else echo https://$1; fi; ;;
+			*.js          ) if [[ $1 == http://* ]] || [[ $1 == https://* ]]; then echo $1; else echo https://$1; fi; ;;
+		esac
+	fi
+}
+
+getContent(){
+	curl -sL $1 > tmp.txt
+}
+
+find(){
+	cat tmp.txt | grep -iohE '<a [^>]+>' | grep -iohE 'href="[^\"]+"' | cut -d '=' -f2 | cut -d '"' -f2 | cut -d "'" -f2 | grep -v '^#' | grep -v '^/$' | grep -v '^//$' | grep -ivE '^#|^javascript:' | sed -e 's/^\/\//\//g' | sed -e 's,^\/,'"$1"',g' | sort -u >> _tmp.txt &
+	cat tmp.txt | grep -iohE '(?<=href=")[^"]*(?=")' | grep -iohE 'href="[^\"]+"' | cut -d '=' -f2 | cut -d '"' -f2 | cut -d "'" -f2 | grep -v '^#' | grep -v '^/$' | grep -v '^//$' | grep -ivE '^#|^javascript:' | sed -e 's/^\/\//\//g' | sed -e 's,^\/,'"$1"',g' | sort -u >> _tmp.txt &
+	cat tmp.txt | grep -iohE '<script [^>]+>' | grep -iohE 'src="[^\"]+"' | cut -d '=' -f2 | cut -d '"' -f2 | cut -d "'" -f2 | grep -ivE '^#|^javascript:' | sed -e 's/^\/\//\//g' | sed -e 's,^\/,'"$1"',g' | sort -u >> _tmp.txt &
+	cat tmp.txt | grep -iohE '(?<=src=")[^"]*(?=")' | grep -iohE 'src="[^\"]+"' | cut -d '=' -f2 | cut -d '"' -f2 | cut -d "'" -f2 | grep -ivE '^#|^javascript:' | sed -e 's/^\/\//\//g' | sed -e 's,^\/,'"$1"',g' | sort -u >> _tmp.txt &
+	cat tmp.txt | grep -iohE '(http|https|ftp|sftp|file)?://[-A-Za-z0-9\+&@#/%?=~_|!:,.;]*[-A-Za-z0-9\+&@#/%=~_|]' | cut -d '"' -f1 | cut -d "'" -f2 | grep -v '^#' | grep -v '^/$' | grep -v '^//$' | grep -ivE '^#|^javascript:' | sed -e 's/^\/\//\//g' | sed -e 's,^\/,'"$1"',g' | sort -u >> _tmp.txt &
+	cat tmp.txt | grep -oihE '(http|https|ftp|sftp|file)?://[a-zA-Z0-9./?=_%:-]*' | cut -d '"' -f1 | cut -d "'" -f2 | grep -v '^#' | grep -v '^/$' | grep -v '^//$' | grep -ivE '^#|^javascript:' | sed -e 's/^\/\//\//g' | sed -e 's,^\/,'"$1"',g' | sort -u >> _tmp.txt &
+	cat tmp.txt | grep -oihE '(http|https|ftp|sftp|file)?://[^ ]+' | cut -d '"' -f1 | cut -d "'" -f2 | grep -v '^#' | grep -v '^/$' | grep -v '^//$' | grep -ivE '^#|^javascript:' | sed -e 's/^\/\//\//g' | sed -e 's,^\/,'"$1"',g' | sort -u >> _tmp.txt &
+	cat tmp.txt | sed -n -E "s/.*(href|src|link|file|url|path)[=:]['\"]?([^'\">]+).*/\2/p" | grep -v '^#' | grep -v '^/$' | grep -v '^//$' | grep -ivE '^#|^javascript:' | sed -e 's/^\/\//\//g' | sed -e 's,^\/,'"$1"',g' | sort -u >> _tmp.txt
+	cat _tmp.txt | sort -u | grep .
+	rm -rf tmp.txt _tmp.txt
+}
+
+while getopts "u:ljeh" OPT; do
+    case ${OPT} in
+        u  ) argurl=$OPTARG ; getContent $(validateURL $argurl); find $(validateURL $argurl) ;;
+		h  ) help ;;
+    esac
+done
+shift $((OPTIND -1))
