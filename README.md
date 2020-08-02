@@ -2,7 +2,7 @@
 [Get All Links]  
 Get all possible href | src | url from target url or domain
 
-<p align="center"><img src="https://raw.githubusercontent.com/YashGoti/gal/master/gal.svg" width="750" height="600"></p>
+![gal](https://raw.githubusercontent.com/YashGoti/gal/master/gal.svg)
 
 ### Upcoming Updates
 ```
