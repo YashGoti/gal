@@ -13,11 +13,9 @@ banner(){
 help(){
 	banner
 	echo -e "[Usage]:"
-  	echo -e "\t$ ~/gal -t URL/DOMAIN"
+  	echo -e "\t$ ~/gal URL/DOMAIN"
 	echo -e "\t-h\thelp"
 }
-
-if [[ -z $1 ]]; then help; fi
 
 validateURL(){
 	if [[ -z $1 ]]; then 
@@ -50,10 +48,8 @@ find(){
 	rm -rf tmp.txt _tmp.txt
 }
 
-while getopts "t:h" OPT; do
-    case ${OPT} in
-        t  ) argurl=$OPTARG ; getContent $(validateURL $argurl); find $(validateURL $argurl) ;;
-	h  ) help ;;
-    esac
-done
-shift $((OPTIND -1))
+if [[ -z $1 ]]; then
+	help
+else
+	getContent $(validateURL $1) ; find $(validateURL $1)
+fi
